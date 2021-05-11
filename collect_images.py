@@ -11,7 +11,9 @@ questions = [
 answers = inquirer.prompt(questions)
 name = answers['choice'] 
 
-cam = cv2.VideoCapture("nvarguscamerasrc ! video/x-raw(memory:NVMM), width=(int)1920, height=(int)1080,format=(string)NV12, framerate=(fraction)30/1 ! nvvidconv flip-method=2 ! video/x-raw, format=(string)BGRx ! videoconvert ! appsink")
+stream = 'nvarguscamerasrc ! video/x-raw(memory:NVMM), width=%d, height=%d, format=(string)NV12, framerate=(fraction)%d/1 !nvvidconv flip-method=%d ! nvvidconv ! video/x-raw, width=(int)%d, height=(int)%d, format=(string)BGRx ! videoconvert ! appsink' % (1280, 720, 30,0, 640, 480)
+
+cam = cv2.VideoCapture(stream,cv2.CAP_GSTREAMER)
 
 cv2.namedWindow("press space to take a photo", cv2.WINDOW_NORMAL)
 cv2.resizeWindow("press space to take a photo", 500, 300)
